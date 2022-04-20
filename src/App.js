@@ -1,24 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import axios from "./axios";
+import Episodes from "./components/episodes";
+import { useEffect, useState } from "react";
+import { ChakraProvider, Box, Heading } from "@chakra-ui/react";
+
+import "./App.css";
 
 function App() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [episodes, setEpisodes] = useState([]);
+
+  useEffect(() => {
+    setIsLoading(true);
+    axios
+      .get("futurama/episodes")
+      .then((response) => {
+        setIsLoading(false);
+        setEpisodes(response.data);
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        console.log(error);
+      });
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ChakraProvider>
+      <Box w={["1200px"]} mx="auto">
+        <Heading color="blue.500" fontSize="3xl" py="6" fontWeight="medium">
+          Episodes
+        </Heading>
+        <Episodes isLoading={isLoading} episodes={episodes} />
+      </Box>
+    </ChakraProvider>
   );
 }
 
