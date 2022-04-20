@@ -42,7 +42,7 @@ const Episode = memo((props) => {
           {originalAirDate}
         </Text>
         <Text fontSize="sm" mb="4">
-          {desc.substring(0, 120)}
+          {desc}
         </Text>
       </Box>
     </Box>
